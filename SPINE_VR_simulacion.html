@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPINE VR | Acceso al simulador</title>
+<style>
+:root{--bg:#061a32;--panel:#0a2545;--panel2:#0d3156;--cyan:#24c4d7;--cyan2:#69e4f0;--text:#f3f8ff;--muted:#aec6e4;--line:#2d5c85;--white:#f8fbff;--ink:#15375d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 85% 35%,#123e6b 0,transparent 40%),linear-gradient(120deg,#04142a,#08284b 65%,#061b35);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}.page{min-height:100vh;display:flex;flex-direction:column}.topbar{display:flex;justify-content:space-between;align-items:center;padding:20px clamp(18px,5vw,70px);border-bottom:1px solid #254968;background:#061a32b8}.brand{display:flex;align-items:center;gap:13px}.brand-mark{width:44px;height:48px;color:var(--cyan);font-size:36px;display:grid;place-items:center}.brand-name{font-weight:850;letter-spacing:.7px;font-size:clamp(24px,3vw,35px)}.brand-name span{color:var(--cyan)}.brand-sub{font-size:12px;color:var(--muted);margin-top:3px}.top-actions{display:flex;gap:10px}.ghost{border:1px solid #37658d;background:transparent;color:#d8ebff;padding:10px 14px;border-radius:10px}.layout{width:min(1320px,94vw);margin:auto;display:grid;grid-template-columns:.88fr 1.08fr .75fr;gap:35px;align-items:center;padding:36px 0 45px;flex:1}.intro{padding:10px 0}.eyebrow{color:var(--cyan2);text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800}.intro h1{font-size:clamp(36px,4vw,55px);line-height:1.04;margin:14px 0}.intro h1 span{color:var(--cyan)}.intro>p{color:#c2d6ee;line-height:1.6;max-width:400px}.feature{display:flex;gap:15px;margin-top:27px;align-items:flex-start}.feature-icon{border:1px solid #2ebfd7;color:#80e9f2;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;font-size:20px}.feature strong{display:block;margin:2px 0 5px}.feature small{color:var(--muted);line-height:1.45;font-size:13px}.quote{margin-top:32px;color:#91b9fa;font-style:italic;font-size:14px}.card{border:1px solid #31618b;background:linear-gradient(145deg,#0b2849ed,#071d37f5);border-radius:18px;padding:clamp(20px,3vw,34px);box-shadow:0 22px 70px #0005;backdrop-filter:blur(12px)}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;border:1px solid #2e5a80;border-radius:13px;margin-bottom:30px}.tab{border:0;border-radius:9px;background:transparent;color:#a9c7e9;padding:13px 8px;font-weight:700}.tab.active{background:linear-gradient(120deg,#18afc6,#28c9d7);color:#052342}.card h2{font-size:26px;margin:0 0 8px}.card .sub{color:#b8d0ed;margin:0 0 24px;font-size:14px;line-height:1.5}.field{display:block;margin:14px 0}.field span{display:block;font-size:12px;color:#c4d8ef;margin-bottom:7px}.field input,.field select{width:100%;border:1px solid #38668e;background:#071c35;color:#f4f8ff;padding:14px 13px;border-radius:9px;outline:none}.field input:focus,.field select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #22c4d522}.field input::placeholder{color:#8eaed1}.rowline{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:#b9d1ec;margin:15px 0 20px}.check{display:flex;gap:7px;align-items:center}.check input{accent-color:var(--cyan)}.text-button{border:0;background:none;color:#39d9e7;text-decoration:none;padding:0;font-size:12px}.primary{border:0;border-radius:10px;background:linear-gradient(100deg,#20b7d0,#27c9d9);color:#042340;font-weight:800;padding:15px;width:100%;box-shadow:0 7px 20px #12bdd326}.primary:hover{filter:brightness(1.08)}.divider{display:flex;align-items:center;gap:12px;color:#8baed2;font-size:12px;margin:20px 0}.divider:before,.divider:after{content:"";height:1px;background:#315a7e;flex:1}.secondary{width:100%;border:1px solid #37658c;background:transparent;color:#e0edff;border-radius:9px;padding:13px;margin-top:10px}.fineprint{font-size:11px;color:#91afd1;line-height:1.5;margin-top:17px}.anatomy{align-self:stretch;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:480px}.anatomy:before{content:"";position:absolute;width:300px;height:460px;background:radial-gradient(ellipse,#1682b34d,transparent 67%);filter:blur(15px)}.spine{width:100%;max-width:340px;position:relative;z-index:1;filter:drop-shadow(0 0 20px #21b9f76b)}.anatomy-caption{position:absolute;right:0;bottom:10%;color:#b8ddfa;font-size:15px;line-height:1.55;max-width:145px}.footer{border-top:1px solid #254968;display:flex;justify-content:space-between;align-items:center;gap:15px;padding:17px clamp(18px,5vw,70px);color:#a9c8e8;font-size:12px}.compat{display:flex;gap:24px;flex-wrap:wrap}.status{display:inline-flex;align-items:center;gap:7px}.dot{width:8px;height:8px;border-radius:50%;background:#40d6a1;display:inline-block}.notice{display:none;border-radius:9px;padding:11px 12px;font-size:13px;line-height:1.4;margin:12px 0}.notice.show{display:block}.notice.error{background:#4c202b;color:#ffdce2;border:1px solid #a64d60}.notice.ok{background:#123c3c;color:#c4fff0;border:1px solid #328a7b}.hidden{display:none!important}.stepbar{display:flex;gap:6px;margin:8px 0 23px}.step{height:4px;flex:1;border-radius:9px;background:#284b6c}.step.active{background:var(--cyan)}.form-foot{font-size:12px;text-align:center;color:#a9c7e8;margin-top:20px}.form-foot button{color:#4ce0ed}.profile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.choice{border:1px solid #355d82;border-radius:9px;padding:13px 7px;text-align:center;color:#c8d9ef;font-size:12px;background:#0a2240}.choice.selected{border-color:var(--cyan);background:#123e5a;color:white}.choice b{display:block;font-size:20px;margin-bottom:7px}.option-list{display:grid;gap:12px;color:#c7d9ee;font-size:13px}.option-list label{display:flex;gap:8px;align-items:center}.option-list input{accent-color:var(--cyan)}.mini-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:20px}.mini-row button{width:auto;min-width:100px}.back{background:transparent;border:1px solid #37658c;color:#d6e8fa;border-radius:9px;padding:12px 15px}.dashboard{grid-column:1/-1;display:none}.dashboard.show{grid-column:1/-1;width:100%}.dashboard.show{display:block}.dash-head{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}.user-chip{display:flex;gap:10px;align-items:center;border:1px solid #315a80;padding:10px 14px;border-radius:12px}.avatar{width:36px;height:36px;border-radius:50%;background:#25bfd3;color:#06233f;display:grid;place-items:center;font-weight:800}.dash-grid{display:grid;grid-template-columns:220px 1fr;gap:22px;margin-top:25px}.side-nav{border-right:1px solid #254968;padding-right:15px}.navitem{padding:12px;border-radius:8px;color:#bfd4ec;margin-bottom:7px;cursor:pointer}.navitem.active{background:#164568;color:white}.dash-main h2{font-size:30px}.sim-cards{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:20px}.sim-card{border:1px solid #315e83;border-radius:13px;padding:17px;background:#0a2544}.sim-card .illustration{height:110px;border-radius:9px;background:radial-gradient(ellipse,#246d91,#0b2341);display:grid;place-items:center;font-size:52px;color:#6ce1ed;margin-bottom:13px}.sim-card p{font-size:13px;color:#adc8e5}.small-btn{border:0;border-radius:8px;background:var(--cyan);color:#052342;padding:10px 13px;font-weight:800}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}.stat{border:1px solid #315a80;padding:15px;border-radius:10px}.stat strong{display:block;font-size:24px;color:#54d9e7}.stat small{color:#a9c7e8}.dashboard-note{font-size:12px;color:#92b3d5;margin-top:18px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr 1fr;width:min(900px,94vw);gap:20px}.intro{grid-column:1/-1}.intro h1{font-size:40px}.anatomy{display:none}.dashboard{grid-column:1/-1}.layout:has(.dashboard.show) .intro,.layout:has(.dashboard.show) .card{display:none}.layout:has(.dashboard.show){display:block}.dash-grid{grid-template-columns:1fr}.side-nav{border-right:0;border-bottom:1px solid #254968;display:flex;overflow:auto;gap:5px}.navitem{white-space:nowrap}}
+@media(max-width:650px){.layout{display:block;padding:24px 0}.intro{margin-bottom:24px}.intro h1{font-size:36px}.card{padding:20px}.topbar{padding:15px}.brand-sub{max-width:190px}.top-actions .ghost{font-size:12px;padding:8px}.footer{align-items:flex-start;flex-direction:column}.sim-cards{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.card h2{font-size:23px}}
+
+/* Configuración del paciente virtual */
+.modal-overlay{position:fixed;inset:0;z-index:1000;background:#020c19d9;backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:22px;overflow-y:auto}
+.modal-overlay.open{display:flex}.config-modal{width:min(760px,100%);max-height:94vh;overflow:auto;border:1px solid #34709a;border-radius:18px;background:linear-gradient(145deg,#0b2849,#071a32);box-shadow:0 25px 90px #0009;padding:clamp(20px,3vw,32px);color:var(--text)}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:22px}.modal-head h2{font-size:27px;margin:7px 0}.modal-head p{margin:0;color:#b8d0ed;font-size:13px;line-height:1.5}.close-modal{border:1px solid #37658c;background:#0a2340;color:#d8ebff;border-radius:9px;width:40px;height:40px;font-size:23px;flex-shrink:0}.config-section{border:1px solid #2b5278;background:#091f3a;border-radius:12px;padding:17px;margin:14px 0}.config-section h3{font-size:15px;margin:0 0 13px}.config-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 15px}.config-modal .field{margin:10px 0}.config-modal .field select{cursor:pointer}.position-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.position-option{position:relative;border:1px solid #355d82;background:#0a2240;border-radius:11px;padding:15px;display:flex;gap:12px;align-items:center;cursor:pointer;color:#c9dcef}.position-option:has(input:checked){border-color:var(--cyan);background:#103b56;box-shadow:inset 0 0 0 1px #23c4d7}.position-option input{accent-color:var(--cyan)}.position-icon{font-size:27px;color:#64deeb}.position-option strong{display:block;font-size:13px;margin-bottom:4px}.position-option small{font-size:11px;color:#a8c4e1;line-height:1.4;display:block}.config-hint{font-size:12px;color:#9dbbda;line-height:1.5;margin:12px 0 0}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.modal-actions button{width:auto}.config-notice{display:none;margin-top:12px;border:1px solid #358b7d;background:#103b3a;color:#c8fff0;border-radius:9px;padding:11px;font-size:13px}.config-notice.show{display:block}
+@media(max-width:560px){.config-grid,.position-options{grid-template-columns:1fr}.modal-overlay{padding:10px}.config-modal{max-height:96vh;padding:18px}.modal-actions{flex-direction:column-reverse}.modal-actions button{width:100%}}
+
+
+/* Flujo de simulación inmersiva y evaluación */
+.vr-overlay{position:fixed;inset:0;z-index:1200;background:#020b18f5;display:none;overflow:auto;padding:clamp(14px,3vw,34px);color:var(--text)}
+.vr-overlay.open{display:block}.vr-shell{max-width:1180px;margin:0 auto}.vr-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;border-bottom:1px solid #315a80;padding-bottom:16px;margin-bottom:22px}.vr-top h2{margin:5px 0;font-size:clamp(23px,3vw,32px)}.vr-panel{border:1px solid #315e83;border-radius:15px;background:linear-gradient(145deg,#0b2849,#071a32);padding:clamp(18px,3vw,28px);margin:16px 0}.vr-confirm{max-width:700px;margin:7vh auto;text-align:center}.vr-confirm .big-icon{font-size:62px;color:var(--cyan2);margin:12px}.vr-confirm p,.vr-panel p{color:#b8d0ed;line-height:1.6}.vr-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.vr-actions button{flex:1;min-width:190px}.vr-scene{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.8fr);gap:18px}.anatomy-view{min-height:350px;border:1px solid #28668c;border-radius:12px;background:radial-gradient(ellipse at center,#165477 0,#0a2949 48%,#06172c 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.spine-mini{height:310px;max-width:90%;filter:drop-shadow(0 0 18px #22c8e666)}.scene-label{position:absolute;left:14px;top:14px;background:#061a32d9;border:1px solid #38749a;border-radius:8px;padding:8px 10px;font-size:12px;color:#bdefff}.needle-line{position:absolute;width:3px;height:155px;background:linear-gradient(#fff,#24c4d7);left:53%;top:31%;transform:rotate(22deg);box-shadow:0 0 12px #24c4d7;display:none}.anatomy-view.active .needle-line{display:block}.vr-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}.vr-metric{padding:13px;border:1px solid #315a80;border-radius:10px;background:#091f3a}.vr-metric small{display:block;color:#a9c7e8}.vr-metric strong{display:block;margin-top:6px;color:#62e0ec}.vr-status{border:1px solid #287a70;background:#103b3a;color:#c8fff0;border-radius:10px;padding:12px;line-height:1.5;margin-top:14px}.vr-status.warning{border-color:#9a7a38;background:#42351a;color:#fff0c2}.result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.result-item{padding:15px;border:1px solid #315a80;border-radius:10px;background:#091f3a}.result-item small{display:block;color:#a9c7e8;margin-bottom:6px}.result-item strong{color:#e9fbff}.vr-hidden{display:none!important}
+@media(max-width:760px){.vr-scene{grid-template-columns:1fr}.anatomy-view{min-height:300px}.result-grid{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="page">
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">≋</div><div><div class="brand-name">SPINE <span>VR</span></div><div class="brand-sub">Simulador virtual de técnicas de punción lumbar y epidural</div></div></div>
+  <div class="top-actions"><button class="ghost" id="topLogin">Iniciar sesión</button><button class="ghost" id="topRegister">Registrarse</button></div>
+</header>
+<main class="layout" id="layout">
+  <section class="intro" id="intro">
+    <div class="eyebrow">Entrenamiento clínico virtual</div>
+    <h1>Entrena hoy,<br><span>para cuidar</span><br>mañana.</h1>
+    <p>Practica técnicas de punción en un entorno anatómico virtual, seguro e inmersivo.</p>
+    <div class="feature"><div class="feature-icon">♙</div><div><strong>Tu experiencia, a tu medida</strong><small>Accede a tu perfil, guarda tus avances y consulta tus resultados.</small></div></div>
+    <div class="feature"><div class="feature-icon">▥</div><div><strong>Seguimiento del progreso</strong><small>Visualiza tu evolución y mejora con cada práctica.</small></div></div>
+    <div class="feature"><div class="feature-icon">♧</div><div><strong>Entorno seguro</strong><small>Los datos se usan para fines educativos dentro de este prototipo.</small></div></div>
+    <div class="quote">“La práctica es el primer paso para la seguridad del paciente.”</div>
+  </section>
+  <section class="card" id="authCard">
+    <div class="tabs"><button class="tab active" id="loginTab">♙ &nbsp; Iniciar sesión</button><button class="tab" id="registerTab">♧ &nbsp; Registrarse</button></div>
+    <form id="loginForm">
+      <h2>Bienvenido de nuevo</h2><p class="sub">Inicia sesión en tu cuenta para continuar.</p>
+      <label class="field"><span>Correo electrónico</span><input type="email" id="loginEmail" placeholder="nombre@correo.com" required autocomplete="email"></label>
+      <label class="field"><span>Contraseña</span><input type="password" id="loginPassword" placeholder="Introduce tu contraseña" required autocomplete="current-password"></label>
+      <div class="rowline"><label class="check"><input type="checkbox" id="remember"> Recordarme</label><button class="text-button" type="button" id="forgot">¿Has olvidado tu contraseña?</button></div>
+      <button class="primary" type="submit">Iniciar sesión →</button>
+      <div class="divider">o</div>
+      <button class="secondary" type="button" id="guest">♧ &nbsp; Acceso como invitado <small>(sin guardar datos)</small></button>
+      <div class="form-foot">¿No tienes cuenta? <button class="text-button" type="button" id="goRegister">Regístrate</button></div>
+      <div class="notice" id="loginNotice" role="status"></div>
+    </form>
+    <form id="registerForm" class="hidden">
+      <h2>Crear cuenta</h2><p class="sub">Crea tu perfil para personalizar la experiencia de SPINE VR.</p>
+      <div class="stepbar"><div class="step active" id="s1"></div><div class="step" id="s2"></div><div class="step" id="s3"></div></div>
+      <div id="regStep1">
+        <label class="field"><span>Nombre completo</span><input id="fullName" placeholder="Tu nombre" required autocomplete="name"></label>
+        <label class="field"><span>Correo electrónico</span><input type="email" id="regEmail" placeholder="nombre@correo.com" required autocomplete="email"></label>
+        <label class="field"><span>Contraseña (mínimo 8 caracteres)</span><input type="password" id="regPassword" minlength="8" placeholder="Crea una contraseña" required autocomplete="new-password"></label>
+        <label class="field"><span>Confirmar contraseña</span><input type="password" id="confirmPassword" minlength="8" placeholder="Repite la contraseña" required autocomplete="new-password"></label>
+        <label class="check" style="font-size:12px;color:#c5d8ef"><input type="checkbox" id="terms" required> Acepto las condiciones del prototipo y la política de privacidad.</label>
+        <div class="mini-row"><span></span><button class="primary" type="button" id="nextProfile">Siguiente →</button></div>
+      </div>
+      <div id="regStep2" class="hidden">
+        <p class="sub">Cuéntanos un poco sobre tu perfil formativo.</p>
+        <div class="profile-grid"><button type="button" class="choice selected" data-role="Estudiante de medicina"><b>♙</b>Estudiante</button><button type="button" class="choice" data-role="Residente"><b>✚</b>Residente</button><button type="button" class="choice" data-role="Profesional sanitario"><b>⚕</b>Profesional sanitario</button></div>
+        <label class="field"><span>Especialidad o área de interés</span><select id="specialty"><option>Neurología</option><option>Anestesiología</option><option>Medicina de urgencias</option><option>Otra / en formación</option></select></label>
+        <label class="field"><span>Experiencia previa</span><select id="experience"><option value="Sin experiencia">Sin experiencia</option><option value="Básico">Básico</option><option value="Intermedio">Intermedio</option><option value="Avanzado">Avanzado</option></select></label>
+        <div class="mini-row"><button class="back" type="button" id="backPersonal">← Anterior</button><button class="primary" type="button" id="nextPrefs">Siguiente →</button></div>
+      </div>
+      <div id="regStep3" class="hidden">
+        <p class="sub">Configura tu experiencia inicial. Podrás cambiarla después.</p>
+        <div class="option-list">
+          <label><input type="checkbox" id="prefLumbar" checked> Punción lumbar</label>
+          <label><input type="checkbox" id="prefEpidural" checked> Punción epidural</label>
+          <label><input type="checkbox" id="prefAnatomy" checked> Mostrar referencias anatómicas</label>
+          <label><input type="checkbox" id="prefErrors" checked> Avisos de error durante la práctica</label>
+          <label><input type="checkbox" id="prefTips" checked> Recibir recomendaciones de mejora</label>
+        </div>
+        <label class="field"><span>Dificultad inicial</span><select id="difficulty"><option>Inicial</option><option>Intermedio</option><option>Avanzado</option></select></label>
+        <label class="field"><span>Idioma de la interfaz</span><select id="language"><option>Español</option><option>English</option></select></label>
+        <div class="mini-row"><button class="back" type="button" id="backProfile">← Anterior</button><button class="primary" type="submit">Finalizar registro ✓</button></div>
+      </div>
+      <div class="form-foot">¿Ya tienes cuenta? <button class="text-button" type="button" id="goLogin">Inicia sesión</button></div>
+      <div class="notice" id="registerNotice" role="status"></div>
+    </form>
+    <section id="successPanel" class="hidden">
+      <div style="text-align:center;font-size:54px;color:#42dbb1">✓</div><h2 style="text-align:center">¡Perfil preparado!</h2><p class="sub" style="text-align:center">Tu cuenta de demostración está lista. Ya puedes entrar al menú personalizado.</p>
+      <div style="background:#0b2d4d;padding:16px;border-radius:10px;color:#cce0f6;font-size:13px;line-height:1.8" id="profileSummary"></div>
+      <button class="primary" style="margin-top:18px" id="goDashboard">Ir al menú principal →</button>
+    </section>
+  </section>
+  <aside class="anatomy" aria-label="Ilustración anatómica de columna vertebral">
+    <svg class="spine" viewBox="0 0 300 520" role="img" aria-label="Ilustración esquemática de columna y pelvis">
+      <defs><linearGradient id="bone" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e8fbff"/><stop offset=".45" stop-color="#75cde9"/><stop offset="1" stop-color="#1e6094"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="5"/></filter></defs>
+      <path d="M152 25 C115 80 181 112 145 158 S177 232 145 280 S176 354 143 402 S154 456 120 480" fill="none" stroke="#22c8e6" stroke-width="19" opacity=".18" filter="url(#glow)"/>
+      <g fill="url(#bone)" stroke="#b9efff" stroke-width="1.5">
+      <path d="M126 25 l22 -7 19 9 4 12 -12 8 -3 12 -16 3 -12 -10 -14 -2 -3 -11z"/>
+      <path d="M121 66 l25 -7 22 10 3 13 -13 8 -4 13 -17 3 -12 -10 -14 -2 -3 -12z"/>
+      <path d="M119 111 l27 -7 23 11 2 13 -14 8 -4 13 -18 3 -12 -10 -14 -2 -3 -13z"/>
+      <path d="M117 158 l29 -8 24 12 2 14 -15 8 -4 13 -19 3 -12 -10 -15 -2 -3 -14z"/>
+      <path d="M116 207 l30 -8 25 13 2 15 -16 9 -4 14 -20 3 -13 -11 -15 -2 -3 -15z"/>
+      <path d="M117 259 l31 -8 25 14 2 15 -16 9 -4 15 -20 3 -13 -11 -15 -2 -3 -15z"/>
+      <path d="M119 312 l31 -8 26 14 2 16 -17 9 -4 15 -21 3 -13 -11 -15 -2 -3 -16z"/>
+      <path d="M122 366 l31 -8 27 15 2 16 -17 10 -5 15 -21 3 -13 -11 -15 -2 -3 -16z"/>
+      <path d="M127 420 l31 -8 26 14 2 15 -17 9 -4 14 -20 3 -13 -11 -15 -2 -3 -15z"/>
+      <path d="M138 466 C113 459 90 467 72 487 L91 511 Q115 519 143 493 L159 510 Q183 516 204 495 L184 470 Q161 459 138 466Z" opacity=".8"/>
+      </g>
+      <g stroke="#35d5ef" fill="none" opacity=".65"><path d="M42 58 H104 M31 110 H100 M39 163 H99 M28 218 H100 M39 275 H100 M28 332 H103 M42 390 H108"/><circle cx="105" cy="58" r="3" fill="#35d5ef"/><circle cx="100" cy="110" r="3" fill="#35d5ef"/><circle cx="99" cy="163" r="3" fill="#35d5ef"/><circle cx="100" cy="218" r="3" fill="#35d5ef"/><circle cx="100" cy="275" r="3" fill="#35d5ef"/><circle cx="103" cy="332" r="3" fill="#35d5ef"/><circle cx="108" cy="390" r="3" fill="#35d5ef"/></g>
+    </svg>
+    <div class="anatomy-caption">Anatomía 3D<br><strong>Entrenamiento inmersivo</strong></div>
+  </aside>
+  <section class="card dashboard" id="dashboard">
+    <div class="dash-head"><div class="brand"><div class="brand-mark">≋</div><div><div class="brand-name">SPINE <span>VR</span></div><div class="brand-sub">Simulador virtual de técnicas de punción</div></div></div><div class="user-chip"><div class="avatar" id="avatar">U</div><div><strong id="dashName">Usuario</strong><div style="font-size:11px;color:#a9c7e8" id="dashRole">Perfil de formación</div></div><button class="text-button" id="logout">Cerrar sesión</button></div></div>
+    <div class="dash-grid"><nav class="side-nav"><div class="navitem active">⌂ &nbsp; Inicio</div><div class="navitem" id="navNew">♧ &nbsp; Nueva simulación</div><div class="navitem" id="navLearn">▤ &nbsp; Modo aprendizaje</div><div class="navitem" id="navResults">▥ &nbsp; Mis resultados</div><div class="navitem" id="navSettings">⚙ &nbsp; Configuración</div></nav>
+      <div class="dash-main"><div class="eyebrow">Área personal</div><h2 id="welcome">Bienvenido</h2><p style="color:#b8d0ed">Continúa entrenando y mejora tus habilidades en un entorno virtual.</p><h3>Técnicas de interés</h3><div class="sim-cards" id="simCards"></div><div class="stats"><div class="stat"><strong id="sessions">0</strong><small>Sesiones realizadas</small></div><div class="stat"><strong id="avg">—</strong><small>Puntuación media</small></div><div class="stat"><strong id="goals">0</strong><small>Objetivos completados</small></div></div><p class="dashboard-note" id="dashNote">Este prototipo guarda las preferencias en este navegador. No implementa autenticación real ni sincronización entre dispositivos.</p></div>
+    </div>
+  </section>
+</main>
+
+<div class="modal-overlay" id="patientConfigOverlay" role="dialog" aria-modal="true" aria-labelledby="configTitle">
+  <section class="config-modal">
+    <div class="modal-head"><div><div class="eyebrow">SPINE VR · PREPARACIÓN DE LA SESIÓN</div><h2 id="configTitle">Configuración del paciente virtual</h2><p id="configSubtitle">Personaliza el escenario anatómico antes de comenzar el entrenamiento.</p></div><button class="close-modal" id="closeConfig" aria-label="Cerrar configuración">×</button></div>
+    <div class="config-section"><h3>01 · Perfil anatómico del paciente</h3><div class="config-grid">
+      <label class="field"><span>Etapa de la vida</span><select id="patientAge"><option value="Adulto">Adulto</option><option value="Pediátrico">Pediátrico</option><option value="Geriátrico">Geriátrico</option></select></label>
+      <label class="field"><span>Complexión / IMC</span><select id="patientBuild"><option value="IMC dentro del rango normal">IMC dentro del rango normal</option><option value="Sobrepeso">Sobrepeso</option><option value="Obesidad">Obesidad</option><option value="Complexión delgada">Complexión delgada</option></select></label>
+      <label class="field"><span>Variación anatómica</span><select id="patientAnatomy"><option value="Anatomía estándar">Anatomía estándar</option><option value="Referencias anatómicas poco visibles">Referencias anatómicas poco visibles</option><option value="Variación anatómica avanzada">Variación anatómica avanzada</option></select></label>
+      <label class="field"><span>Nivel de dificultad</span><select id="patientDifficulty"><option value="Inicial">Inicial · Guiado</option><option value="Intermedio">Intermedio</option><option value="Avanzado">Avanzado · Menos ayudas</option></select></label>
+    </div><p class="config-hint">La etapa de la vida y la complexión modificarán el modelo anatómico únicamente cuando esas variantes estén disponibles en la biblioteca 3D del simulador.</p></div>
+    <div class="config-section"><h3>02 · Posición del paciente</h3><div class="position-options">
+      <label class="position-option"><input type="radio" name="patientPosition" value="Sentado" checked><span class="position-icon">♙</span><span><strong>Sentado</strong><small>Paciente incorporado, con el tronco flexionado según el escenario.</small></span></label>
+      <label class="position-option"><input type="radio" name="patientPosition" value="Decúbito lateral"><span class="position-icon">▰</span><span><strong>Decúbito lateral</strong><small>Paciente tumbado de lado para el escenario de entrenamiento.</small></span></label>
+    </div><p class="config-hint">La posición elegida se registrará como parte de la configuración de la sesión.</p></div>
+    <div class="config-section"><h3>03 · Ayudas durante la práctica</h3><div class="option-list"><label><input type="checkbox" id="configAnatomy" checked> Mostrar referencias anatómicas</label><label><input type="checkbox" id="configFeedback" checked> Activar avisos y retroalimentación durante el ejercicio</label><label><input type="checkbox" id="configTrajectory" checked> Mostrar análisis de trayectoria al finalizar</label></div></div>
+    <div class="config-notice" id="configNotice" role="status"></div>
+    <div class="modal-actions"><button class="back" id="cancelConfig" type="button">Cancelar</button><button class="primary" id="startConfiguredPractice" type="button">Guardar configuración y continuar →</button></div>
+  </section>
+</div>
+
+
+<div class="vr-overlay" id="vrOverlay" role="dialog" aria-modal="true" aria-labelledby="vrTitle">
+  <div class="vr-shell">
+    <header class="vr-top">
+      <div><div class="eyebrow">SPINE VR · SESIÓN INMERSIVA</div><h2 id="vrTitle">Preparación del procedimiento</h2><div id="vrSubtitle" style="color:#b8d0ed;font-size:13px">Caso clínico virtual configurado</div></div>
+      <button class="back" id="exitVR" type="button">Salir de la simulación</button>
+    </header>
+    <section class="vr-panel vr-confirm" id="vrConfirm">
+      <div class="big-icon">⌁</div>
+      <div class="eyebrow">CASO CLÍNICO LISTO</div>
+      <h2>Confirma el inicio de la práctica</h2>
+      <p id="confirmDescription">El escenario anatómico se ha preparado con los parámetros elegidos. En el sistema final, esta vista se mostrará al colocarse las gafas de realidad virtual.</p>
+      <div class="vr-metrics" id="confirmMetrics"></div>
+      <div class="vr-actions"><button class="primary" id="beginPuncture" type="button">Comenzar Punción</button></div>
+      <p style="font-size:11px">Prototipo de interfaz: no controla físicamente las gafas ni el dispositivo háptico Touch X.</p>
+    </section>
+    <section class="vr-panel vr-hidden" id="vrProcedure">
+      <div class="eyebrow">ENTORNO DIRECTO DE PUNCIÓN</div><h2 id="procedureHeading">Procedimiento en curso</h2>
+      <p id="procedureDescription">Modelo anatómico de demostración. La integración real cargará el modelo 3D segmentado y calibrará el instrumental con el estilete háptico Touch X.</p>
+      <div class="vr-scene">
+        <div class="anatomy-view" id="anatomyView">
+          <div class="scene-label" id="sceneLabel">Modelo 3D · Columna lumbar</div>
+          <svg class="spine-mini" viewBox="0 0 300 520" role="img" aria-label="Representación esquemática de la columna vertebral">
+            <defs><linearGradient id="miniBone" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e8fbff"/><stop offset=".5" stop-color="#75cde9"/><stop offset="1" stop-color="#1e6094"/></linearGradient></defs>
+            <g fill="url(#miniBone)" stroke="#b9efff" stroke-width="2">
+              <path d="M112 35l43-9 30 17-2 22-20 10-4 20-29 4-20-16-20-4-3-22z"/>
+              <path d="M105 105l47-10 33 18-2 24-22 10-5 22-30 4-21-17-21-3-3-23z"/>
+              <path d="M100 181l50-10 35 19-2 25-23 10-5 23-31 4-22-17-22-4-3-24z"/>
+              <path d="M100 263l51-10 36 20-2 25-23 10-5 24-32 4-22-18-22-3-3-25z"/>
+              <path d="M107 348l52-10 36 20-2 25-24 10-5 24-32 4-22-18-22-3-3-25z"/>
+              <path d="M124 432q-40 2-60 35l28 34q28 10 54-15l23 18q26 5 47-17l-24-34q-33-25-68-21z"/>
+            </g>
+          </svg><div class="needle-line"></div>
+        </div>
+        <div>
+          <div class="vr-metrics">
+            <div class="vr-metric"><small>Procedimiento</small><strong id="metricProcedure">—</strong></div>
+            <div class="vr-metric"><small>Posición</small><strong id="metricPosition">—</strong></div>
+            <div class="vr-metric"><small>Dificultad</small><strong id="metricDifficulty">—</strong></div>
+            <div class="vr-metric"><small>Estado háptico</small><strong id="metricHaptic">Simulado</strong></div>
+          </div>
+          <div class="vr-status warning" id="hapticNote">Touch X: acoplamiento representado visualmente. La conexión y calibración física requieren integración con su SDK.</div>
+          <div class="vr-actions"><button class="primary" id="finishProcedure" type="button">Finalizar procedimiento y registrar extracción</button></div>
+        </div>
+      </div>
+    </section>
+    <section class="vr-panel vr-hidden" id="vrResults">
+      <div class="eyebrow">CIERRE Y EVALUACIÓN</div><h2>Procedimiento Finalizado</h2>
+      <div class="vr-status" id="goggleNotice">Notificación de las gafas: Procedimiento Finalizado. Resumen de la técnica preparado.</div>
+      <p>Al finalizar, el monitor 2D muestra el informe de resultados de esta sesión. Los valores de trayectoria de este prototipo son demostrativos; el cálculo real requiere registrar los datos de seguimiento e integrar Unity con el sistema háptico.</p>
+      <div class="result-grid" id="resultBreakdown"></div>
+      <div class="vr-actions"><button class="primary" id="returnResults" type="button">Volver al monitor y ver Resultados</button><button class="back" id="closeResults" type="button">Cerrar</button></div>
+    </section>
+  </div>
+</div>
+
+<footer class="footer"><div class="compat"><span class="status"><span class="dot"></span> Prototipo de interfaz</span><span>▣ Compatible conceptualmente con Meta Quest 3</span><span>♧ Integración háptica Touch X prevista</span></div><span>⚙ Configuración · Privacidad</span></footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let currentStep=1, selectedRole='Estudiante de medicina', currentUser=null;
+const STORAGE_KEY='spineVR_demo_users_v1';
+function users(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}catch(e){return {}}}
+function saveUsers(data){localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}
+function notice(id,msg,type='error'){const n=$(id);n.textContent=msg;n.className='notice show '+type}
+function clearNotices(){['loginNotice','registerNotice'].forEach(id=>{$(id).className='notice';$(id).textContent=''})}
+function setTab(which){clearNotices();$('loginForm').classList.toggle('hidden',which!=='login');$('registerForm').classList.toggle('hidden',which!=='register');$('successPanel').classList.add('hidden');$('loginTab').classList.toggle('active',which==='login');$('registerTab').classList.toggle('active',which==='register')}
+$('loginTab').onclick=$('topLogin').onclick=$('goLogin').onclick=()=>setTab('login');
+$('registerTab').onclick=$('topRegister').onclick=$('goRegister').onclick=()=>{setTab('register');showStep(1)};
+$('forgot').onclick=()=>notice('loginNotice','Demostración: la recuperación de contraseña necesitaría un servicio de correo y autenticación real.','ok');
+$('guest').onclick=()=>{currentUser={name:'Invitado',role:'Invitado',specialty:'General',experience:'Inicial',prefs:{lumbar:true,epidural:true,anatomy:true,errors:true,tips:false,difficulty:'Inicial',language:'Español'},guest:true};openDashboard()};
+document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-role]').forEach(x=>x.classList.toggle('selected',x===b));selectedRole=b.dataset.role});
+function showStep(n){currentStep=n;[1,2,3].forEach(i=>{$('regStep'+i).classList.toggle('hidden',i!==n);$('s'+i).classList.toggle('active',i<=n)})}
+$('nextProfile').onclick=()=>{const f=$('registerForm');if(!$('fullName').value.trim()||!$('regEmail').reportValidity()||!$('regPassword').reportValidity()||!$('confirmPassword').reportValidity()||!$('terms').checked){notice('registerNotice','Completa los campos obligatorios y acepta las condiciones del prototipo.');return}if($('regPassword').value!==$('confirmPassword').value){notice('registerNotice','Las contraseñas no coinciden.');return}clearNotices();showStep(2)};
+$('backPersonal').onclick=()=>showStep(1);$('nextPrefs').onclick=()=>{clearNotices();showStep(3)};$('backProfile').onclick=()=>showStep(2);
+$('registerForm').onsubmit=e=>{e.preventDefault();clearNotices();const email=$('regEmail').value.trim().toLowerCase();const db=users();if(db[email]){notice('registerNotice','Ya existe una cuenta de demostración con ese correo. Inicia sesión.');return}const user={name:$('fullName').value.trim(),email,role:selectedRole,specialty:$('specialty').value,experience:$('experience').value,prefs:{lumbar:$('prefLumbar').checked,epidural:$('prefEpidural').checked,anatomy:$('prefAnatomy').checked,errors:$('prefErrors').checked,tips:$('prefTips').checked,difficulty:$('difficulty').value,language:$('language').value},sessions:[],password:$('regPassword').value};db[email]=user;saveUsers(db);currentUser={...user,guest:false};$('registerForm').classList.add('hidden');$('loginForm').classList.add('hidden');$('successPanel').classList.remove('hidden');$('profileSummary').innerHTML=`<strong>Perfil:</strong> ${esc(user.role)}<br><strong>Área de interés:</strong> ${esc(user.specialty)}<br><strong>Experiencia:</strong> ${esc(user.experience)}<br><strong>Técnicas:</strong> ${[user.prefs.lumbar?'Punción lumbar':'',user.prefs.epidural?'Punción epidural':''].filter(Boolean).join(' y ')||'Sin seleccionar'}<br><strong>Dificultad:</strong> ${esc(user.prefs.difficulty)}<br><strong>Idioma:</strong> ${esc(user.prefs.language)}`};
+$('loginForm').onsubmit = e => {
+    e.preventDefault();
+    clearNotices();
+
+    const email = $('loginEmail').value.trim().toLowerCase();
+    const pass = $('loginPassword').value;
+
+    // Cuenta de demostración integrada en el HTML
+    if (
+        email === 'demo@spinevr.com' &&
+        pass === 'SpineVR2026'
+    ) {
+        currentUser = {
+            name: 'Usuario Demo',
+            email: 'demo@spinevr.com',
+            role: 'Estudiante de medicina',
+            specialty: 'Neurología',
+            experience: 'Inicial',
+            prefs: {
+                lumbar: true,
+                epidural: true,
+                anatomy: true,
+                errors: true,
+                tips: true,
+                difficulty: 'Inicial',
+                language: 'Español'
+            },
+            sessions: [],
+            guest: false,
+            demo: true
+        };
+
+        openDashboard();
+        return;
+    }
+
+    // Mantener el acceso a las cuentas registradas localmente
+    const db = users();
+
+    if (!db[email] || db[email].password !== pass) {
+        notice(
+            'loginNotice',
+            'Credenciales incorrectas. Comprueba los datos e inténtalo de nuevo.'
+        );
+        return;
+    }
+
+    currentUser = { ...db[email], guest: false };
+    openDashboard();
+};
+$('goDashboard').onclick=openDashboard;
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function openDashboard(){if(!currentUser)return;$('intro').classList.add('hidden');$('authCard').classList.add('hidden');document.querySelector('.anatomy').classList.add('hidden');$('dashboard').classList.add('show');$('dashName').textContent=currentUser.name;$('dashRole').textContent=currentUser.role;$('avatar').textContent=(currentUser.name.trim()[0]||'U').toUpperCase();$('welcome').textContent='Bienvenido, '+currentUser.name.split(' ')[0];const p=currentUser.prefs||{lumbar:true,epidural:true};let cards='';if(p.lumbar)cards+=`<div class="sim-card"><div class="illustration">♧</div><h3>Punción lumbar</h3><p>Entrenamiento de acceso al espacio subaracnoideo simulado.</p><button class="small-btn" data-sim="lumbar">Configurar práctica →</button></div>`;if(p.epidural)cards+=`<div class="sim-card"><div class="illustration">⚕</div><h3>Punción epidural</h3><p>Entrenamiento de acceso al espacio epidural simulado.</p><button class="small-btn" data-sim="epidural">Configurar práctica →</button></div>`;if(!cards)cards='<p>Selecciona tus técnicas de interés en configuración.</p>';$('simCards').innerHTML=cards;$('sessions').textContent=(currentUser.sessions||[]).length;$('avg').textContent=(currentUser.sessions||[]).length?'—':'—';$('goals').textContent=(currentUser.sessions||[]).length;$('dashNote').textContent=currentUser.guest?'Modo invitado: no se guardan datos de forma permanente.':'Perfil de demostración guardado solo en este navegador. No existe servidor ni autenticación segura.';document.querySelectorAll('[data-sim]').forEach(b=>b.onclick=()=>openPatientConfig(b.dataset.sim));window.scrollTo({top:0,behavior:'smooth'})}
+
+let selectedProcedure='lumbar';
+function openPatientConfig(procedure){selectedProcedure=procedure;const isLumbar=procedure==='lumbar';$('configTitle').textContent='Configuración del paciente virtual';$('configSubtitle').textContent='Prepara el escenario para '+(isLumbar?'la punción lumbar':'la punción epidural')+'. Ajusta la anatomía, la posición y las ayudas del entrenamiento.';$('configNotice').classList.remove('show');$('configNotice').textContent='';$('patientConfigOverlay').classList.add('open');document.body.style.overflow='hidden';$('closeConfig').focus()}
+function closePatientConfig(){$('patientConfigOverlay').classList.remove('open');document.body.style.overflow=''}
+$('closeConfig').onclick=$('cancelConfig').onclick=closePatientConfig;
+$('patientConfigOverlay').addEventListener('click',e=>{if(e.target===$('patientConfigOverlay'))closePatientConfig()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('patientConfigOverlay').classList.contains('open'))closePatientConfig()});
+let activePracticeConfig=null, lastPracticeResult=null;
+function showVRSection(section){['vrConfirm','vrProcedure','vrResults'].forEach(id=>$(id).classList.toggle('vr-hidden',id!==section));}
+function openVRFlow(config){activePracticeConfig=config;$('vrTitle').textContent=config.procedure+' · Caso clínico';$('vrSubtitle').textContent=config.age+' · '+config.build+' · '+config.anatomy;$('confirmMetrics').innerHTML=`<div class="vr-metric"><small>Procedimiento</small><strong>${esc(config.procedure)}</strong></div><div class="vr-metric"><small>Posición</small><strong>${esc(config.position)}</strong></div><div class="vr-metric"><small>Dificultad</small><strong>${esc(config.difficulty)}</strong></div><div class="vr-metric"><small>Paciente</small><strong>${esc(config.age)}</strong></div>`;$('vrOverlay').classList.add('open');showVRSection('vrConfirm');document.body.style.overflow='hidden';}
+$('startConfiguredPractice').onclick=()=>{const position=document.querySelector('input[name="patientPosition"]:checked')?.value||'Sentado';const config={procedure:selectedProcedure==='lumbar'?'Punción lumbar':'Punción epidural',procedureKey:selectedProcedure,age:$('patientAge').value,build:$('patientBuild').value,anatomy:$('patientAnatomy').value,difficulty:$('patientDifficulty').value,position,showAnatomy:$('configAnatomy').checked,feedback:$('configFeedback').checked,trajectory:$('configTrajectory').checked};activePracticeConfig=config;try{sessionStorage.setItem('spineVR_currentPractice',JSON.stringify(config))}catch(e){}closePatientConfig();openVRFlow(config);};
+$('beginPuncture').onclick=()=>{if(!activePracticeConfig)return;const c=activePracticeConfig;showVRSection('vrProcedure');$('procedureHeading').textContent=c.procedure+' en curso';$('sceneLabel').textContent='Modelo 3D · '+(c.procedureKey==='lumbar'?'Punción lumbar':'Punción epidural');$('metricProcedure').textContent=c.procedure;$('metricPosition').textContent=c.position;$('metricDifficulty').textContent=c.difficulty;$('metricHaptic').textContent='No conectado';$('hapticNote').textContent='Touch X: el instrumental se representa en la escena. La calibración y el acoplamiento físicos necesitan integración con el SDK del dispositivo.';$('anatomyView').classList.add('active');};
+$('finishProcedure').onclick=()=>{if(!activePracticeConfig)return;const c=activePracticeConfig;lastPracticeResult={procedure:c.procedure,position:c.position,age:c.age,build:c.build,anatomy:c.anatomy,difficulty:c.difficulty,trajectory:c.trajectory,showAnatomy:c.showAnatomy,feedback:c.feedback,depth:c.procedureKey==='lumbar'?'Demostrativa: 45 mm':'Demostrativa: 50 mm',structures:c.procedureKey==='lumbar'?'Piel, tejido subcutáneo, ligamento supraespinoso, ligamento interespinoso y ligamento amarillo (recorrido ilustrativo)':'Piel, tejido subcutáneo, ligamento supraespinoso, ligamento interespinoso y ligamento amarillo (recorrido ilustrativo)',errors:c.feedback?'Se mostrarían aquí los avisos detectados durante la práctica; no hay seguimiento real conectado.':'Retroalimentación desactivada en la configuración',trajectoryText:c.trajectory?'Desglose 3D pendiente de datos reales de seguimiento; trayectoria ilustrativa.':'Análisis de trayectoria desactivado en la configuración'};const items=[['Técnica',lastPracticeResult.procedure],['Paciente',lastPracticeResult.age+' · '+lastPracticeResult.build],['Posición',lastPracticeResult.position],['Dificultad',lastPracticeResult.difficulty],['Trayectoria 3D',lastPracticeResult.trajectoryText],['Profundidad',lastPracticeResult.depth],['Estructuras atravesadas',lastPracticeResult.structures],['Errores / avisos',lastPracticeResult.errors]];$('resultBreakdown').innerHTML=items.map(([label,value])=>`<div class="result-item"><small>${esc(label)}</small><strong>${esc(value)}</strong></div>`).join('');showVRSection('vrResults');$('vrTitle').textContent='Cierre y evaluación';$('vrSubtitle').textContent='Resumen de la técnica · '+c.procedure;try{const history=JSON.parse(sessionStorage.getItem('spineVR_results')||'[]');history.unshift({...lastPracticeResult,date:new Date().toLocaleString('es-ES')});sessionStorage.setItem('spineVR_results',JSON.stringify(history));}catch(e){}};
+function closeVRFlow(){ $('vrOverlay').classList.remove('open');document.body.style.overflow='';$('anatomyView').classList.remove('active');}
+$('exitVR').onclick=()=>{closeVRFlow();};
+$('closeResults').onclick=closeVRFlow;
+$('returnResults').onclick=()=>{closeVRFlow();$('navResults').click();};
+
+$('logout').onclick=()=>{currentUser=null;$('dashboard').classList.remove('show');document.querySelector('.anatomy').classList.remove('hidden');$('intro').classList.remove('hidden');$('authCard').classList.remove('hidden');$('successPanel').classList.add('hidden');$('loginPassword').value='';setTab('login');window.scrollTo({top:0,behavior:'smooth'})};
+$('navNew').onclick=()=>alert('Selecciona una técnica en el menú y configura un escenario anatómico. La simulación real requiere integración con Unity, OpenXR y el SDK del Touch X.');
+$('navLearn').onclick=()=>alert('Modo aprendizaje: aquí se incorporará la exploración anatómica 3D y la explicación de las estructuras.');
+$('navResults').onclick=()=>{let results=[];try{results=JSON.parse(sessionStorage.getItem('spineVR_results')||'[]')}catch(e){}const main=document.querySelector('.dash-main');let panel=$('resultsPanel');if(!panel){panel=document.createElement('section');panel.id='resultsPanel';panel.className='vr-panel';main.appendChild(panel)}if(!results.length){panel.innerHTML='<h2>Resultados</h2><p>Todavía no hay sesiones finalizadas. Completa una simulación para generar el informe.</p>'}else{panel.innerHTML='<h2>Resultados de las sesiones</h2>'+results.map((r,i)=>`<div class="result-item" style="margin:10px 0"><small>Sesión ${i+1} · ${esc(r.date||'')}</small><strong>${esc(r.procedure)} · ${esc(r.position)} · ${esc(r.difficulty)}</strong><p>${esc(r.trajectoryText)}<br><b>Profundidad:</b> ${esc(r.depth)}<br><b>Errores/avisos:</b> ${esc(r.errors)}</p></div>`).join('')}panel.scrollIntoView({behavior:'smooth',block:'start'});};
+$('navSettings').onclick=()=>alert('Configuración: las preferencias se definen en el registro de este prototipo. La edición del perfil puede añadirse como siguiente módulo.');
+</script>
+</body>
+</html>
